@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/on_exist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_size_20"
+            android:layout_marginTop="@dimen/margin_size_30"
+            android:text="@string/txt_entry_confirm"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/margin_size_20"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView1"
+            android:layout_below="@+id/textView1"
+            android:layout_marginTop="@dimen/margin_size_30"
+            android:text="@string/txt_cust_mob"
+            android:textSize="@dimen/margin_size_15"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/cust_mob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView2"
+            android:layout_below="@+id/textView2"
+            android:text=""
+            android:textColor="@color/color_red_yello" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView1"
+            android:layout_below="@+id/cust_mob"
+            android:layout_marginTop="@dimen/margin_size_15"
+            android:text="@string/txt_unique_id"
+            android:textSize="@dimen/margin_size_15"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/unique_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView3"
+            android:layout_below="@+id/textView3"
+            android:text=""
+            android:textColor="@color/color_red_yello" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView3"
+            android:layout_below="@+id/unique_id"
+            android:layout_marginTop="@dimen/margin_size_15"
+            android:text="@string/txt_time"
+            android:textSize="@dimen/margin_size_15"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView4"
+            android:layout_below="@+id/textView4"
+            android:layout_marginBottom="@dimen/margin_size_20"
+            android:text=""
+            android:textColor="@color/color_red_yello" />
+
+        <Button
+            android:id="@+id/end_session"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/time"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/margin_size_20"
+            android:background="@color/btn_disable"
+            android:gravity="center_vertical"
+            android:padding="@dimen/margin_size_5"
+            android:text="END THE SESSION"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/time"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_size_20" >
+
+            <Button
+                android:id="@+id/ent_done"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/time"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_size_20"
+                android:background="@color/btn_bg"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/margin_size_6"
+                android:layout_margin="@dimen/margin_size_3"
+                android:text="DONE" />
+
+            <Button
+                android:id="@+id/ent_cancel"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/time"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_size_20"
+                android:background="@color/btn_bg"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/margin_size_6"
+                android:layout_margin="@dimen/margin_size_3"
+                android:text="CANCEL" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Bufo</string>
+    <string name="hello_world">Hello world!</string>
+
+    <!-- API parameter veriables -->
+    <string name="api_login_id">login_id</string>
+    <string name="api_Password">password</string>
+    <string name="api_card_id">card_id</string>
+    <string name="api_vendor_id">vendor_id</string>
+    <string name="api_mobile">mobile</string>
+    <string name="api_identifier">identifier</string>
+    <string name="api_class">class</string>
+
+    <!-- Design String -->
+    <string name="txt_exit">Exit</string>
+    <string name="txt_exit_confirm">Exit Confirmation</string>
+    <string name="txt_cust_mob">Customer Mobile</string>
+    <string name="txt_unique_id">Unique Identifier</string>
+    <string name="txt_time">Time</string>
+    <string name="txt_start_time">Start Time</string>
+    <string name="txt_end_time">End Time</string>
+    <string name="txt_entry_confirm">Entry Confirmation</string>
+    <string name="txt_cost">Cost</string>
+    <string name="txt_payment_mode">Payment Mode</string>
+
+    <!-- Message String -->
+    <string name="msg_scan_card_fist">Please touch your card on phone back.</string>
+    <string name="msg_login_error">Authorization failed check credentials</string>
+    <string name="msg_connect_network">Please connect network</string>
+</resources>

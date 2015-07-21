@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <color name="btn_bg">#00FF99</color>
+    <color name="btn_disable">#dddddd</color>
+    <color name="color_red_yello">#FE9A2E</color>
+    
+    <color name="txt_spc">#3366FF</color>
+    <color name="txt_green">#31B404</color>
+</resources>
