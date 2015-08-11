@@ -39,7 +39,7 @@ import com.sbw.bufo.util.Utility;
 public class ActivityHome extends Activity implements OnClickListener {
 
 	private TextView tv_home_place;
-//	private Button btn_home_book;
+	// private Button btn_home_book;
 
 	private NfcAdapter mNfcAdapter;
 	private PendingIntent mPendingIntent;
@@ -68,10 +68,10 @@ public class ActivityHome extends Activity implements OnClickListener {
 		getActionBar().setIcon(
 				new ColorDrawable(getResources().getColor(
 						android.R.color.transparent)));
-//		btn_home_book = (Button) findViewById(R.id.book_space_card);
-//		// btn_home_book.setClickable(false);
-//		btn_home_book.setBackgroundColor(getResources().getColor(
-//				R.color.btn_disable));
+		// btn_home_book = (Button) findViewById(R.id.book_space_card);
+		// // btn_home_book.setClickable(false);
+		// btn_home_book.setBackgroundColor(getResources().getColor(
+		// R.color.btn_disable));
 
 		tv_home_place = (TextView) findViewById(R.id.place);
 
@@ -118,7 +118,7 @@ public class ActivityHome extends Activity implements OnClickListener {
 	}
 
 	private void setAction() {
-//		btn_home_book.setOnClickListener(this);
+		// btn_home_book.setOnClickListener(this);
 	}
 
 	private NdefRecord newTextRecord(String text, Locale locale,
@@ -207,45 +207,33 @@ public class ActivityHome extends Activity implements OnClickListener {
 		try {
 			scanData = new String(msgs[0].getRecords()[0].getPayload(), "UTF-8");
 			if (!scanData.equalsIgnoreCase("") && scanData != null) {
-				scanDataArr = scanData.split(":");
-				if (scanDataArr.length > 1) {
 
-					
-					if (Utility.isOnline(getApplicationContext())) {
+				if (Utility.isOnline(getApplicationContext())) {
+					try {
 						try {
-							if (scanDataArr != null && scanDataArr.length > 1) {
-								try {
-									if ((scanDataArr[1]) != null
-											&& (scanDataArr[1]).length() > 0) {
-										Intent intent = new Intent(this,
-												ActivityStatus.class);
-										intent.putExtra("card_id", scanDataArr[1]);
-										startActivity(intent);
-										finish();
-									}
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-							} else {
-								Toast.makeText(
-										this,
-										getResources().getString(
-												R.string.msg_scan_card_fist),
-										Toast.LENGTH_LONG).show();
-							}
-						} catch (NotFoundException e) {
+								Intent intent = new Intent(this,
+										ActivityStatus.class);
+								intent.putExtra("card_id", scanData);
+								startActivity(intent);
+								finish();
+						} catch (Exception e) {
 							e.printStackTrace();
 						}
-					} else {
-						Toast.makeText(this,
-								getResources().getString(R.string.msg_connect_network),
-								Toast.LENGTH_LONG).show();
+					} catch (NotFoundException e) {
+						e.printStackTrace();
 					}
-					// btn_home_book.setClickable(true);
-//					btn_home_book.setBackgroundColor(getResources().getColor(
-//							R.color.btn_bg));
-
+				} else {
+					Toast.makeText(
+							this,
+							getResources().getString(
+									R.string.msg_connect_network),
+							Toast.LENGTH_LONG).show();
 				}
+
+			} else {
+				Toast.makeText(this,
+						getResources().getString(R.string.msg_scan_card_fist),
+						Toast.LENGTH_LONG).show();
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
