@@ -22,5 +22,6 @@ public class NetworkAPI {
 	public static String URL_STATE = "state/";
 	public static String URL_PRODUCT = "product/";
 	
-	
+	public static String URL_NEWCARD = "newcard";
+	public static String URL_TICKETS="currentuser/";
 }

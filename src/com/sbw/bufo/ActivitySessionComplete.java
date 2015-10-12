@@ -10,12 +10,17 @@ import com.sbw.bufo.util.Preference;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * @author Sumanta
@@ -40,12 +45,35 @@ public class ActivitySessionComplete extends Activity implements
 		inisalize();
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.mainmenu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_logout:
+			actionLogout();
+			break;
+
+		default:
+			break;
+		}
+		return true;
+	}
+
 	private void inisalize() {
 
 		setTitle(mPref.getVendorName());
 		getActionBar().setIcon(
 				new ColorDrawable(getResources().getColor(
 						android.R.color.transparent)));
+		getActionBar().setBackgroundDrawable(
+				new ColorDrawable(Color.parseColor("#3F51B5")));
 
 		cust_mob_c = (TextView) findViewById(R.id.cust_mob_c);
 		unique_id_c = (TextView) findViewById(R.id.unique_id_c);
@@ -90,7 +118,7 @@ public class ActivitySessionComplete extends Activity implements
 
 	@Override
 	public void onClick(View v) {
-		Intent mIntent = new Intent(this, ActivityHome.class);
+		Intent mIntent = new Intent(this, ActivityHome.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		switch (v.getId()) {
 		case R.id.done:
 			startActivity(mIntent);
@@ -100,5 +128,16 @@ public class ActivitySessionComplete extends Activity implements
 		default:
 			break;
 		}
+	}
+	
+	/**
+	 * User Logout operation
+	 */
+	private void actionLogout(){
+		mPref.setVendorId("");
+		mPref.setVendorName("");
+		startActivity(new Intent(ActivitySessionComplete.this, ActivityLogin.class));
+		overridePendingTransition(0, 0);
+		finish();
 	}
 }

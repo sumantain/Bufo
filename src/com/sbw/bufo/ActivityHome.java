@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.res.Resources.NotFoundException;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -18,9 +19,14 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.MifareClassic;
 import android.nfc.tech.MifareUltralight;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -28,6 +34,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sbw.bufo.asynctask.AsyncGetAvailable;
+import com.sbw.bufo.asynctask.AsyncGetCardId;
+import com.sbw.bufo.asynctask.AsyncGetCardId.GetCardid;
 import com.sbw.bufo.interactive.onAvailableResponse;
 import com.sbw.bufo.util.Preference;
 import com.sbw.bufo.util.Utility;
@@ -39,7 +47,7 @@ import com.sbw.bufo.util.Utility;
 public class ActivityHome extends Activity implements OnClickListener {
 
 	private TextView tv_home_place;
-	// private Button btn_home_book;
+	private Button button1, button2;
 
 	private NfcAdapter mNfcAdapter;
 	private PendingIntent mPendingIntent;
@@ -63,38 +71,81 @@ public class ActivityHome extends Activity implements OnClickListener {
 		getPlaceData();
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.mainmenu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_logout:
+
+			actionLogout();
+			break;
+
+		default:
+			break;
+		}
+		return true;
+	}
+
 	private void inisalize() {
 		setTitle(mPref.getVendorName());
 		getActionBar().setIcon(
 				new ColorDrawable(getResources().getColor(
 						android.R.color.transparent)));
+		getActionBar().setBackgroundDrawable(
+				new ColorDrawable(Color.parseColor("#3F51B5")));
+
 		// btn_home_book = (Button) findViewById(R.id.book_space_card);
 		// // btn_home_book.setClickable(false);
 		// btn_home_book.setBackgroundColor(getResources().getColor(
 		// R.color.btn_disable));
 
+		button1 = (Button) findViewById(R.id.button1);
+		button2 = (Button) findViewById(R.id.button2);
+
 		tv_home_place = (TextView) findViewById(R.id.place);
 
 		mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
+		button1.setOnClickListener(this);
+		button2.setOnClickListener(this);
 	}
 
 	private void getPlaceData() {
-		mAsyncGetAvailable = new AsyncGetAvailable(this,
-				new onAvailableResponse() {
 
-					@Override
-					public void onBackGroundResponseFalse(boolean data) {
+		if (Utility.isOnline(ActivityHome.this)) {
+			mAsyncGetAvailable = new AsyncGetAvailable(this,
+					new onAvailableResponse() {
 
-					}
+						@Override
+						public void onBackGroundResponseFalse(boolean data) {
 
-					@Override
-					public void onBackGroundResponseSuccess(boolean data,
-							int place) {
-						tv_home_place.setText(String.valueOf(place));
-					}
-				});
-		mAsyncGetAvailable.execute();
+						}
+
+						@Override
+						public void onBackGroundResponseSuccess(boolean data,
+								int place) {
+							tv_home_place.setText(String.valueOf(place));
+						}
+					});
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+				mAsyncGetAvailable
+						.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+			else
+
+				mAsyncGetAvailable.execute();
+
+		} else {
+			Toast.makeText(this,
+					getResources().getString(R.string.msg_connect_network),
+					Toast.LENGTH_LONG).show();
+		}
 
 	}
 
@@ -103,7 +154,7 @@ public class ActivityHome extends Activity implements OnClickListener {
 		super.onStart();
 
 		if (mNfcAdapter == null) {
-			finish();
+			// finish();
 		} else {
 			mPendingIntent = PendingIntent.getActivity(this, 0,
 					new Intent(this, getClass())
@@ -211,11 +262,11 @@ public class ActivityHome extends Activity implements OnClickListener {
 				if (Utility.isOnline(getApplicationContext())) {
 					try {
 						try {
-								Intent intent = new Intent(this,
-										ActivityStatus.class);
-								intent.putExtra("card_id", scanData);
-								startActivity(intent);
-								finish();
+							Intent intent = new Intent(this,
+									ActivityStatus.class);
+							intent.putExtra("card_id", scanData);
+							startActivity(intent);
+							finish();
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -379,6 +430,16 @@ public class ActivityHome extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
+		case R.id.button1:
+			getCardId();
+			break;
+
+		case R.id.button2:
+			startActivity(new Intent(ActivityHome.this, ActivityTickets.class));
+			overridePendingTransition(0, 0);
+
+			break;
+
 		case R.id.book_space_card:
 			// System.out.println(scanDataArr[1]);
 			if (Utility.isOnline(getApplicationContext())) {
@@ -417,6 +478,57 @@ public class ActivityHome extends Activity implements OnClickListener {
 		default:
 			break;
 		}
+	}
+
+	/**
+	 * Call Asynctask for get Card id.
+	 */
+	private void getCardId() {
+
+		if (Utility.isOnline(ActivityHome.this)) {
+			AsyncGetCardId mAsyncGetCardId = new AsyncGetCardId();
+			mAsyncGetCardId.setmGetCardid(new GetCardid() {
+
+				@Override
+				public void onSuccess(String cardid) {
+					Intent intent = new Intent(ActivityHome.this,
+							ActivityStatus.class);
+					intent.putExtra("TYPE", "card_id");
+					intent.putExtra("ID", cardid);
+					startActivity(intent);
+					finish();
+				}
+
+				@Override
+				public void onError() {
+					Toast.makeText(ActivityHome.this,
+							getResources().getString(R.string.something),
+							Toast.LENGTH_LONG).show();
+				}
+			});
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+				mAsyncGetCardId
+						.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+			else
+
+				mAsyncGetCardId.execute();
+		} else {
+			Toast.makeText(this,
+					getResources().getString(R.string.msg_connect_network),
+					Toast.LENGTH_LONG).show();
+		}
+
+	}
+
+	/**
+	 * User Logout operation
+	 */
+	private void actionLogout() {
+		mPref.setVendorId("");
+		mPref.setVendorName("");
+		startActivity(new Intent(ActivityHome.this, ActivityLogin.class));
+		overridePendingTransition(0, 0);
+		finish();
 	}
 
 }

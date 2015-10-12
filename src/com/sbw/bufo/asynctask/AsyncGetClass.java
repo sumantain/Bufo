@@ -9,6 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.sbw.bufo.interactive.onGetClass;
@@ -27,15 +29,24 @@ public class AsyncGetClass extends AsyncTask<String, Void, Void> {
 	
 	private ArrayList<String> product_id;
 	private ArrayList<String> product_name;
+	
+	private Context mContext;
+	private ProgressDialog pDialog;
 
-	public AsyncGetClass(onGetClass onGetClass) {
+	public AsyncGetClass(Context mContext,onGetClass onGetClass) {
+		this.mContext=mContext;
 		this.mOnGetClass =onGetClass;
+		this.pDialog=new ProgressDialog(mContext);
 	}
 
 	@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			super.onPreExecute();
+			if (pDialog!=null) {
+				pDialog.setMessage("Loading... ");	
+				pDialog.setCancelable(false);
+				pDialog.show();
+			}
 		}
 	
 	@Override
@@ -77,6 +88,9 @@ public class AsyncGetClass extends AsyncTask<String, Void, Void> {
 	protected void onPostExecute(Void result) {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
+		if (pDialog!=null) {			
+			pDialog.dismiss();
+		}
 		mOnGetClass.onGetClassSucces(product_id, product_name);
 	}
 	

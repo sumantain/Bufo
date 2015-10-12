@@ -10,7 +10,10 @@ import com.sbw.bufo.util.Utility;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -33,6 +36,18 @@ public class ActivityLogin extends Activity implements OnClickListener {
 
 		mPref = new Preference(getApplicationContext());
 		inisalize();
+		
+		
+		
+		
+		
+		if(!TextUtils.isEmpty(mPref.getVendorId()) && !TextUtils.isEmpty(mPref.getVendorName())){
+			Intent intent = new Intent(ActivityLogin.this,
+					ActivityHome.class);
+			startActivity(intent);
+			finish();
+		}
+		
 	}
 
 	private void inisalize() {
@@ -85,10 +100,18 @@ public class ActivityLogin extends Activity implements OnClickListener {
 						}
 
 					});
-					mAsyncGetLogin.execute(edittext_email.getText().toString(),
-							edittext_password.getText().toString());
+					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+						mAsyncGetLogin.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,edittext_email.getText().toString(),edittext_password.getText().toString());
+				     else
+				    	 mAsyncGetLogin.execute(edittext_email.getText().toString(),
+									edittext_password.getText().toString());
+					
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+					Toast.makeText(
+							getApplicationContext(),
+							getResources().getString(
+									R.string.msg_login_error),
+							Toast.LENGTH_LONG).show();
 					e.printStackTrace();
 				}
 			} else {

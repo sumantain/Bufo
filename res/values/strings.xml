@@ -8,6 +8,7 @@
     <string name="api_login_id">login_id</string>
     <string name="api_Password">password</string>
     <string name="api_card_id">card_id</string>
+    <string name="api_ticket_id">ticket_id</string>
     <string name="api_vendor_id">vendor_id</string>
     <string name="api_mobile">mobile</string>
     <string name="api_identifier">identifier</string>
@@ -24,9 +25,14 @@
     <string name="txt_entry_confirm">Entry Confirmation</string>
     <string name="txt_cost">Cost</string>
     <string name="txt_payment_mode">Payment Mode</string>
+    <string name="txt_ticketid">Ticket ID</string>
+    <string name="txt_Mobile">Mobile</string>
+    <string name="txt_identifier">Identifier</string>
+    <string name="txt_startdate">Start Date</string>
 
     <!-- Message String -->
     <string name="msg_scan_card_fist">Please touch your card on phone back.</string>
     <string name="msg_login_error">Authorization failed check credentials</string>
     <string name="msg_connect_network">Please connect network</string>
+    <string name="something">Something went wrong! Please try again.</string>
 </resources>

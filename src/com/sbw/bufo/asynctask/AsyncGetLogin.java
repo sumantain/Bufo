@@ -6,6 +6,7 @@ package com.sbw.bufo.asynctask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
 import android.os.AsyncTask;
@@ -24,17 +25,23 @@ public class AsyncGetLogin extends AsyncTask<String, Void, String>{
 	onGetLogin monGetLogin;
 	
 	private JSONObject requestObject;
-	
+	private ProgressDialog pDialog;
 	private String responseData;
 	
 	public AsyncGetLogin(Context mContext, onGetLogin monGetLogin) {
 		this.mContext = mContext;
 		this.monGetLogin = monGetLogin;
+		this.pDialog=new ProgressDialog(mContext);
 	}
 
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
+		if (pDialog!=null) {
+			pDialog.setMessage("Loading... ");			
+			pDialog.setCancelable(false);
+			pDialog.show();
+		}
 	}
 	
 	@Override
@@ -59,6 +66,9 @@ public class AsyncGetLogin extends AsyncTask<String, Void, String>{
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
+		if (pDialog!=null) {			
+			pDialog.dismiss();
+		}
 		try {
 			if((new JSONObject(result).getJSONArray("login_result").getJSONObject(0).getString("status")).equalsIgnoreCase("success")){
 				monGetLogin.onGetLoginSuccess(new JSONObject(result).getJSONArray("login_result").getJSONObject(0));

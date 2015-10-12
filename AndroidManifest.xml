@@ -18,7 +18,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" 
-        android:debuggable="true"
         android:screenOrientation="portrait">
         <activity
             android:name=".ActivitySplash"
@@ -46,6 +45,9 @@
             android:screenOrientation="portrait"></activity>
         
         <activity android:name="com.sbw.bufo.ActivitySessionComplete"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name="com.sbw.bufo.ActivityTickets"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:screenOrientation="portrait"></activity>
         
     </application>

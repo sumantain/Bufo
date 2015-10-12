@@ -159,6 +159,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/margin_size_20"
+                android:layout_marginBottom="@dimen/margin_size_20"
                 android:background="@color/btn_bg"
                 android:gravity="center_horizontal"
                 android:padding="@dimen/margin_size_6"

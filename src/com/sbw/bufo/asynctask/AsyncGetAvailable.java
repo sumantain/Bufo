@@ -11,6 +11,7 @@ import com.sbw.bufo.networkhelper.BufoRestClient;
 import com.sbw.bufo.util.NetworkAPI;
 import com.sbw.bufo.util.Preference;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -24,23 +25,30 @@ public class AsyncGetAvailable extends AsyncTask<String, Void, String> {
 	private Preference mPref = null;
 	
 	private String responseData;
+	private ProgressDialog pDialog;
 	
 	public AsyncGetAvailable(Context mContext, onAvailableResponse monBackGroundResponse) {
 		this.mContext = mContext;
 		this.monBackGroundResponse = monBackGroundResponse;
 		this.mPref = new Preference(this.mContext);
+		this.pDialog=new ProgressDialog(mContext);
 	}
 	
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
+		if (pDialog!=null) {
+			pDialog.setMessage("Loading... ");	
+			pDialog.setCancelable(false);
+			pDialog.show();
+		}
 	}
 	
 	@Override
 	protected String doInBackground(String... params) {
 		
 		try {
-			responseData = BufoRestClient.getInstantData(NetworkAPI.BASE_URL+NetworkAPI.URL_AVAILABLE+mPref.getVendorId());
+			responseData = BufoRestClient.getInstantData(NetworkAPI.BASE_URL+NetworkAPI.URL_AVAILABLE+mPref.getVendorId());		
 			responseData.replace("null", "");
 			
 		} catch (Exception e) {
@@ -53,6 +61,10 @@ public class AsyncGetAvailable extends AsyncTask<String, Void, String> {
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
+		if (pDialog!=null) {
+			pDialog.setMessage("Loading...");
+			pDialog.dismiss();
+		}
 		if(result != null && !result.equalsIgnoreCase("")){
 			try {
 				monBackGroundResponse.onBackGroundResponseSuccess(true, Integer.parseInt(new JSONObject(result).getJSONArray("availability").getJSONObject(0).getString("available")));

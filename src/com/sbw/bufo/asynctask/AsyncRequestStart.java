@@ -6,6 +6,7 @@ package com.sbw.bufo.asynctask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
 import android.os.AsyncTask;
@@ -25,15 +26,23 @@ public class AsyncRequestStart extends AsyncTask<String, Void, String> {
 
 	private JSONObject requestObject;
 	private String responseData;
+	
+	private ProgressDialog pDialog;
 
 	public AsyncRequestStart(Context mContext, onRequestStart monRequestStart) {
 		this.mContext = mContext;
 		this.monRequestStart = monRequestStart;
+		this.pDialog=new ProgressDialog(mContext);
 	}
 
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
+		if (pDialog!=null) {
+			pDialog.setMessage("Loading... ");	
+			pDialog.setCancelable(false);
+			pDialog.show();
+		}
 	}
 
 	/*
@@ -67,7 +76,9 @@ public class AsyncRequestStart extends AsyncTask<String, Void, String> {
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-		
+		if (pDialog!=null) {			
+			pDialog.dismiss();
+		}
 		try {
 			if(((new JSONObject(result).getJSONArray("card_info")).getJSONObject(0).get("status")).equals("200")){
 				monRequestStart.onRequestStartSuccess((new JSONObject(result).getJSONArray("card_info")).getJSONObject(0));

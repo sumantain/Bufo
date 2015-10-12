@@ -16,21 +16,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/add_bg_border_age"
-            android:padding="@dimen/margin_size_10"
             android:hint="Email"
-            android:inputType="textEmailAddress" />
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:maxLength="60"
+            android:padding="@dimen/margin_size_10"
+            android:singleLine="true" />
 
         <EditText
             android:id="@+id/edittext_password"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/edittext_email"
-            android:background="@drawable/add_bg_border_age"
             android:layout_marginTop="@dimen/margin_size_10"
-            android:padding="@dimen/margin_size_10"
+            android:background="@drawable/add_bg_border_age"
             android:hint="Password"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
+            android:maxLength="20"
+            android:padding="@dimen/margin_size_10"
             android:singleLine="true" />
     </RelativeLayout>
 
@@ -38,9 +42,11 @@
         android:id="@+id/button_login"
         android:layout_width="100dp"
         android:layout_height="40dp"
+        android:layout_marginTop="@dimen/margin_size_20"
         android:background="@color/btn_bg"
         android:padding="@dimen/margin_size_6"
-        android:layout_marginTop="@dimen/margin_size_20"
-        android:text="Login" />
+        android:text="Login"
+        android:textColor="@color/txt_white"
+        android:textStyle="bold" />
 
 </LinearLayout>

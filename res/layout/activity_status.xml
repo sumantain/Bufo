@@ -42,6 +42,9 @@
             android:layout_margin="@dimen/margin_size_10"
             android:background="@drawable/add_bg_border_age"
             android:gravity="left"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            android:maxLength="10"
             android:hint="Mobile No"
             android:padding="@dimen/margin_size_6"
             android:textSize="@dimen/margin_size_20" >
@@ -55,6 +58,8 @@
             android:layout_margin="@dimen/margin_size_10"
             android:background="@drawable/add_bg_border_age"
             android:gravity="left"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
             android:hint="Unique identifier"
             android:padding="@dimen/margin_size_6"
             android:textSize="@dimen/margin_size_20" >
